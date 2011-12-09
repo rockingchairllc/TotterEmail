@@ -26,9 +26,9 @@ requires = [
 if sys.version_info[:3] < (2,5,0):
     requires.append('pysqlite')
 
-setup(name='totter-email',
+setup(name='totteremail',
       version='0.0',
-      description='totter-email',
+      description='totteremail',
       long_description=README + '\n\n' +  CHANGES,
       classifiers=[
         "Programming Language :: Python",
