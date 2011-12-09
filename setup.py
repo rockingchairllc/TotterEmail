@@ -14,7 +14,13 @@ requires = [
     'pyramid_tm',
     'pyramid_debugtoolbar',
     'zope.sqlalchemy',
-    'email'
+    'email',
+    'sqlamp',
+    'greenlet',
+    'gevent',
+    'gevent-websocket',
+    'gevent-socketio',
+    'pyramid_socketio'
     ]
 
 if sys.version_info[:3] < (2,5,0):
