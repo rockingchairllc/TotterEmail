@@ -5,7 +5,7 @@ from gevent import Greenlet
 
 import smtplib
 from email.mime.text import MIMEText
-def send_email(from_name, to_emails=None, bcc=None, subject, message):
+def send_email(from_name, to_emails, bcc, subject, message):
     if not isinstance(to_emails, list):
         to_emails = [to_emails]
     msg = MIMEText(message.encode('utf-8'), 'plain', 'utf-8') 
