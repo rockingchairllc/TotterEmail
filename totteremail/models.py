@@ -52,7 +52,7 @@ class Subscription(Base):
     id = Column(Integer, primary_key=True)
     email = Column(String(256), nullable=False)
     frequency = Column(Enum('instant', 'daily'), nullable=True)
-    last_sent = Column(ForeignKey('Event.id'))
+    last_sent = Column(ForeignKey('Events.id'))
     
     # Subscriptions get notified of all events matching type_id and subtypes.
     type_id = Column(ForeignKey('EventTypes.id'), nullable=False)
