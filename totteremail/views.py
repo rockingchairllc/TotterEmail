@@ -85,7 +85,7 @@ def subscribe(request):
     
     return {}
 
-@view_config(route_name='create_sub', renderer='string'):
+@view_config(route_name='create_sub', renderer='string')
 def create_sub(request):
     # Params:
     # 'parent' : <parent name> or 'root'
