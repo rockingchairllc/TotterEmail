@@ -118,6 +118,6 @@ def create_sub(request):
     return HTTPCreated()
     
 @view_config(route_name='daily', renderer='string')
-dev daily(request):
+def daily(request):
     # Notify all daily subscribers with a digest:
     return {}
