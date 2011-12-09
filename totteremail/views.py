@@ -44,7 +44,7 @@ def notify_immediate(from_email, event):
         emails += [email]
         subscriber.last_sent = event.id # FIXME: Race condition. Only do this if last_sent < event.id
     # TODO: Is there a max limit on 
-    send_email(from_email, [from_email], emails, 
+    send_email(from_email, [from_email], emails, event.subject, event.message)
 
 @view_config(route_name='event', renderer='string')
 def event(request):
