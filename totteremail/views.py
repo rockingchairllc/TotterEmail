@@ -31,12 +31,13 @@ def index(request):
     return {'tree_data' : 'Its working.'}
 
 
-def notify_immediate(from_email, event):
+def notify_immediate(from_email, event_id):
     # Notify all immediate subscribers of this eventType
     # and all ancestors of this eventType.
+    session = DBSession()
+    event = session.query(Event).filter(Event.id == event_id)
     eventType = event.type
     ancestorTypes = eventType.query_ancestors().all()
-    session = DBSession()
     subscribers = session.query(Subscription)\
         .filter(Subscription.type.in_([eventType] + ancestorTypes))\
         .filter(Subscription.frequency=='immediate').all()
