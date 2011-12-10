@@ -20,6 +20,7 @@ def send_email(from_name, to_emails, bcc, subject, message):
     s = smtplib.SMTP('localhost')
     logging.info("sendimg mail to " + ','.join(to_emails) + ' bcc: ' + ','.join(bcc))
     s.sendmail(from_name, to_emails, msg.as_string())
+    logging.info("Sent.")
     
 def ensure_params(request, param_list):
     for param in param_list:
