@@ -7,19 +7,15 @@ from datetime import datetime
 import logging
 import smtplib
 from email.mime.text import MIMEText
-def send_email(from_name, to_emails, bcc, subject, message):
-    if to_emails and not isinstance(to_emails, list):
-        to_emails = [to_emails]
+def send_email(from_name, subject, message, to=[], bcc=[]):
     msg = MIMEText(message.encode('utf-8'), 'plain', 'utf-8') 
     msg['Subject'] = subject
     msg['From'] = from_name
-    if to_emails:
-        msg['To'] = ','.join(to_emails)
-    if bcc:
-        msg['Bcc'] = ','.join(bcc)
+    msg['To'] = to
+    msg['Bcc'] = bcc
     s = smtplib.SMTP('localhost')
-    logging.info("sendimg mail to " + ','.join(to_emails if to_emails else []) + ' bcc: ' + ','.join(bcc if bcc else []))
-    s.sendmail(from_name, to_emails, msg.as_string())
+    logging.info("sendimg mail to " + ','.join(to) + ' bcc: ' + ','.join(bcc))
+    s.sendmail(from_name, to + bcc, msg.as_string())
     logging.info("Sent.")
     
 def ensure_params(request, param_list):
@@ -51,7 +47,7 @@ def notify_immediate(from_email, event_id):
         emails += [email]
         subscriber.last_sent = event.id # FIXME: Race condition. Only do this if last_sent < event.id
     # TODO: Is there a max limit on 
-    send_email(from_email, None, emails, event.subject, event.message)
+    send_email(from_email, event.subject, event.message, bcc=emails)
 
 @view_config(route_name='event', renderer='string')
 def event(request):
