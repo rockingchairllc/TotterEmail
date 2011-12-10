@@ -38,8 +38,9 @@ def notify_immediate(from_email, event_id):
     event = session.query(Event).filter(Event.id == event_id).one()
     eventType = event.type
     ancestorTypes = eventType.mp.query_ancestors().all()
+    ancestorIDs = [ancestor.id for ancestor in ancestorTypes]
     subscribers = session.query(Subscription)\
-        .filter(Subscription.type.in_([eventType] + ancestorTypes))\
+        .filter(Subscription.type_id.in_([eventType.id] + ancestorIDs))\
         .filter(Subscription.frequency=='immediate').all()
     emails = []
     for subscriber in subscribers:
