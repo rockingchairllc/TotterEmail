@@ -37,7 +37,7 @@ def notify_immediate(from_email, event_id):
     session = DBSession()
     event = session.query(Event).filter(Event.id == event_id).one()
     eventType = event.type
-    ancestorTypes = eventType.query_ancestors().all()
+    ancestorTypes = eventType.mp.query_ancestors().all()
     subscribers = session.query(Subscription)\
         .filter(Subscription.type.in_([eventType] + ancestorTypes))\
         .filter(Subscription.frequency=='immediate').all()
