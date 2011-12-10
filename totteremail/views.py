@@ -75,7 +75,7 @@ def event(request):
     
     # Notify everyone who has an immediate subscription.
     #Greenlet.spawn(notify_immediate, request.registry.settings['email.from'], event)
-    start_new_thread(notify_immediate,  request.registry.settings['email.from'], event)
+    start_new_thread(notify_immediate,  (request.registry.settings['email.from'], event))
     return {}
     
 @view_config(route_name='subscribe', renderer='string')
