@@ -60,7 +60,7 @@ def event(request):
     # Look up subscription, ensure validity.
     try: 
         eventType = session.query(EventType).filter(EventType.name==subscription).one()
-    except NoResultsFound:
+    except NoResultFound:
         raise HTTPBadRequest('No subscription by that name: ' + subscription)
     
     # Store the event in the store
@@ -90,7 +90,7 @@ def subscribe(request):
     session = DBSession()
     try: 
         eventType = session.query(EventType).filter(EventType.name==subscription).one()
-    except NoResultsFound:
+    except NoResultFound:
         raise HTTPBadRequest('No subscription by that name: ' + subscription)
     
     subscriber = Subscription(email=email, type_id=eventType.id, frequency=frequency)
