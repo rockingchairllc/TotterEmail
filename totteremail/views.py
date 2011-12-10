@@ -103,7 +103,7 @@ def create_sub(request):
             parent = session.query(EventType).filter(name=parent).one()
         else:
             parent = None
-    except NoResultsFound:
+    except NoResultFound:
         raise HTTPBadRequest('No subscription by that name: ' + parent)
     
     # Check if the mapping already exists:
