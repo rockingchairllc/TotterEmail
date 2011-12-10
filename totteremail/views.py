@@ -25,7 +25,7 @@ def ensure_params(request, param_list):
             raise HTTPBadRequest('Param missing: ' + param)
     return True
     
-@view_config(route_name='home', renderer='index.pt')
+@view_config(route_name='home', renderer='templates/index.pt')
 def index(request):
     return {'tree_data' : 'Its working.'}
 
