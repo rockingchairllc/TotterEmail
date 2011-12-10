@@ -3,6 +3,7 @@ from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPBadRequest, HTTPCreated
 from gevent import Greenlet
 from thread import start_new_thread
+from datetime import datetime
 
 import smtplib
 from email.mime.text import MIMEText
@@ -51,10 +52,10 @@ def notify_immediate(from_email, event):
 def event(request):
     # Event parameters
     # 'subscription': <subscription name>
-    # 'time' : <time of occurance>
+    # ['time' : <time of occurance>]
     # 'subject' : <event subject>
     # 'message' : <event message>
-    ensure_params(request, ('subscription', 'time', 'subject', 'message'))
+    ensure_params(request, ('subscription', 'subject', 'message'))
     subscription = request.params['subscription']
     session = DBSession()
     # Look up subscription, ensure validity.
@@ -65,7 +66,7 @@ def event(request):
     
     # Store the event in the store
     event = Event(type=eventType, 
-        when=request.params['time'], 
+        when=request.params['time'] if 'time' in request.params else datetime.utcnow(), 
         subject=request.params['subject'],
         message=reqeust.params['message']
     )
