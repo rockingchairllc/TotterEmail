@@ -84,8 +84,18 @@ def subscribe(request):
     # 'email' : <email>
     # 'frequency' : 'daily' or 'instant'
     ensure_params(request, ('subscription', 'email', 'frequency'))
+    subscription = request.params['subscription']
+    frequency = request.params['frequency']
+    email = request.params['email']
+    session = DBSession()
+    try: 
+        eventType = session.query(EventType).filter(EventType.name==subscription).one()
+    except NoResultsFound:
+        raise HTTPBadRequest('No subscription by that name: ' + subscription)
     
-    return {}
+    subscriber = Subscription(email=email, type_id=eventType.id, frequency=frequency)
+    session.add(subscriber)
+    return HTTPCreated()
 
 @view_config(route_name='create_sub', renderer='string')
 def create_sub(request):
