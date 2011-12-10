@@ -62,6 +62,7 @@ def event(request):
     ensure_params(request, ('subscription', 'subject', 'message'))
     subscription = request.params['subscription']
     session = DBSession()
+    logging.info ("Received event to : " + str(subscription))
     # Look up subscription, ensure validity.
     try: 
         eventType = session.query(EventType).filter(EventType.name==subscription).one()
