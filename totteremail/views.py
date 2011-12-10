@@ -18,7 +18,7 @@ def send_email(from_name, to_emails, bcc, subject, message):
     if bcc:
         msg['Bcc'] = ','.join(bcc)
     s = smtplib.SMTP('localhost')
-    logging.info("sendimg mail to " + ','.join(to_emails) + ' bcc: ' + ','.join(bcc))
+    logging.info("sendimg mail to " + ','.join(to_emails if to_emails else []) + ' bcc: ' + ','.join(bcc if bcc else []))
     s.sendmail(from_name, to_emails, msg.as_string())
     logging.info("Sent.")
     
