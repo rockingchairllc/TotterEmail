@@ -68,7 +68,7 @@ def event(request):
     event = Event(type=eventType, 
         when=request.params['time'] if 'time' in request.params else datetime.utcnow(), 
         subject=request.params['subject'],
-        message=reqeust.params['message']
+        message=request.params['message']
     )
     session.add(event)
     session.flush()
