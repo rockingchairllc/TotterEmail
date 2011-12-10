@@ -11,8 +11,8 @@ def send_email(from_name, subject, message, to=[], bcc=[]):
     msg = MIMEText(message.encode('utf-8'), 'plain', 'utf-8') 
     msg['Subject'] = subject
     msg['From'] = from_name
-    msg['To'] = to.join(',') if isinstance(to, list) else to
-    msg['Bcc'] = bcc.join(',') if isinstance(bcc, list) else bcc
+    msg['To'] = ','.join(to) if isinstance(to, list) else to
+    msg['Bcc'] = ','.join(bcc) if isinstance(bcc, list) else bcc
     s = smtplib.SMTP('localhost')
     logging.info("sendimg mail to " + ','.join(to) + ' bcc: ' + ','.join(bcc))
     s.sendmail(from_name, to + bcc, msg.as_string())
