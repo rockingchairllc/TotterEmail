@@ -59,7 +59,7 @@ def event(request):
     session = DBSession()
     # Look up subscription, ensure validity.
     try: 
-        eventType = session.query(EventType).filter(name=subscription).one()
+        eventType = session.query(EventType).filter(EventType.name==subscription).one()
     except NoResultsFound:
         raise HTTPBadRequest('No subscription by that name: ' + subscription)
     
@@ -100,7 +100,7 @@ def create_sub(request):
     # Verify parent's existence:
     try:
         if parent != 'root':
-            parent = session.query(EventType).filter(name=parent).one()
+            parent = session.query(EventType).filter(EventType.name==parent).one()
         else:
             parent = None
     except NoResultFound:
