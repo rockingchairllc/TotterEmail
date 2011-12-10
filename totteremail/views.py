@@ -2,7 +2,7 @@ from totteremail.models import *
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPBadRequest, HTTPCreated
 from gevent import Greenlet
-from threading import start_new_thread
+from thread import start_new_thread
 
 import smtplib
 from email.mime.text import MIMEText
