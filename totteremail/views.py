@@ -2,6 +2,7 @@ from totteremail.models import *
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPBadRequest, HTTPCreated
 from gevent import Greenlet
+from threading import start_new_thread
 
 import smtplib
 from email.mime.text import MIMEText
@@ -72,7 +73,8 @@ def event(request):
     session.flush()
     
     # Notify everyone who has an immediate subscription.
-    Greenlet.spawn(notify_immediate, request.registry.settings['email.from'], event)
+    #Greenlet.spawn(notify_immediate, request.registry.settings['email.from'], event)
+    start_new_thread(notify_immediate,  request.registry.settings['email.from'], event)
     return {}
     
 @view_config(route_name='subscribe', renderer='string')
