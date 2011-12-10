@@ -4,7 +4,7 @@ from pyramid.httpexceptions import HTTPBadRequest, HTTPCreated
 from gevent import Greenlet
 from thread import start_new_thread
 from datetime import datetime
-
+import logging
 import smtplib
 from email.mime.text import MIMEText
 def send_email(from_name, to_emails, bcc, subject, message):
@@ -18,6 +18,7 @@ def send_email(from_name, to_emails, bcc, subject, message):
     if bcc:
         msg['Bcc'] = ','.join(bcc)
     s = smtplib.SMTP('localhost')
+    logging.info("sendimg mail to " + ','.join(to_emails) + ' bcc: ' + ','.join(bcc))
     s.sendmail(from_name, to_emails, msg.as_string())
     
 def ensure_params(request, param_list):
@@ -42,6 +43,7 @@ def notify_immediate(from_email, event_id):
     subscribers = session.query(Subscription)\
         .filter(Subscription.type_id.in_([eventType.id] + ancestorIDs))\
         .filter(Subscription.frequency=='immediate').all()
+    logging.log(str(len(subscribers)) + ' immediate subscribers to ' + eventType.name)
     emails = []
     for subscriber in subscribers:
         email = subscriber.email
