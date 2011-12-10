@@ -11,11 +11,11 @@ def send_email(from_name, subject, message, to=[], bcc=[]):
     msg = MIMEText(message.encode('utf-8'), 'plain', 'utf-8') 
     msg['Subject'] = subject
     msg['From'] = from_name
-    msg['To'] = ','.join(to) if isinstance(to, list) else to
-    msg['Bcc'] = ','.join(bcc) if isinstance(bcc, list) else bcc
+    msg['To'] = ','.join(to) if not isinstance(to, str) else to
+    msg['Bcc'] = ','.join(bcc) if not isinstance(bcc, str) else bcc
     s = smtplib.SMTP('localhost')
     logging.info("sendimg mail to " + ','.join(to) + ' bcc: ' + ','.join(bcc))
-    s.sendmail(from_name, to + bcc, msg.as_string())
+    s.sendmail(from_name, list(to) + list(bcc), msg.as_string())
     logging.info("Sent.")
     
 def ensure_params(request, param_list):
@@ -41,10 +41,10 @@ def notify_immediate(from_email, event_id):
         .filter(Subscription.type_id.in_([eventType.id] + ancestorIDs))\
         .filter(Subscription.frequency=='immediate').all()
     logging.info(str(len(subscribers)) + ' immediate subscribers to ' + eventType.name)
-    emails = []
+    emails = set()
     for subscriber in subscribers:
         email = subscriber.email
-        emails += [email]
+        emails.add(email)
         subscriber.last_sent = event.id # FIXME: Race condition. Only do this if last_sent < event.id
     # TODO: Is there a max limit on 
     send_email(from_email, event.subject, event.message, bcc=emails)
