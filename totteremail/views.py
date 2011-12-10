@@ -88,7 +88,7 @@ def subscribe(request):
     # Params:
     # 'subscription' : <subscription name>
     # 'email' : <email>
-    # 'frequency' : 'daily' or 'instant'
+    # 'frequency' : 'daily' or 'immediate'
     ensure_params(request, ('subscription', 'email', 'frequency'))
     subscription = request.params['subscription']
     frequency = request.params['frequency']
