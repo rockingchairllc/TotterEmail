@@ -15,6 +15,7 @@ def main(global_config, **settings):
     config.add_route('daily', '/daily')
     config.add_route('create_sub', '/subscription')
     config.add_route('subscribe', '/subscribe')
+                    
     config.scan()
     return config.make_wsgi_app()
 
