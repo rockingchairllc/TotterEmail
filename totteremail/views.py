@@ -8,7 +8,6 @@ from datetime import datetime
 import logging
 import smtplib
 from email.mime.text import MIMEText
-system_from_address = pyramid.threadlocal.get_current_registry().settings['email.from']
 
 def send_email(from_name, subject, message, to=[], bcc=[]):
     msg = MIMEText(message.encode('utf-8'), 'plain', 'utf-8') 
@@ -33,8 +32,7 @@ def index(request):
     return {'tree_data' : 'Its working.'}
 
 
-def notify_immediate(from_email, event_id):
-    global system_from_address
+def notify_immediate(send_from, from_email, event_id):
     # Notify all immediate subscribers of this eventType
     # and all ancestors of this eventType.
     session = DBSession()
@@ -55,7 +53,7 @@ def notify_immediate(from_email, event_id):
         emails.remove(from_email)
     # TODO: Is there a max limit on addresses?
     if emails:
-        send_email(system_from_address, event.subject, event.message, bcc=emails)
+        send_email(send_from, event.subject, event.message, bcc=emails)
 
 @view_config(route_name='event', renderer='string')
 def event(request):
@@ -87,7 +85,7 @@ def event(request):
     
     # Notify everyone who has an immediate subscription.
     #Greenlet.spawn(notify_immediate, request.registry.settings['email.from'], event)
-    start_new_thread(notify_immediate,  (from_email, event.id))
+    start_new_thread(notify_immediate,  (request.registry.settings['email.from'], from_email, event.id))
     return {}
     
 @view_config(route_name='subscribe', renderer='string')
