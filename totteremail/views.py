@@ -49,7 +49,7 @@ def notify_immediate(send_from, from_email, event_id):
         email = subscriber.email
         emails.add(email)
         subscriber.last_sent = event.id # FIXME: Race condition. Only do this if last_sent < event.id
-    if from_email: # Don't send to the originator of the event (if one is specified).
+    if from_email in emails: # Don't send to the originator of the event (if one is specified).
         emails.remove(from_email)
     # TODO: Is there a max limit on addresses?
     if emails:
