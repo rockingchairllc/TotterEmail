@@ -2,7 +2,7 @@ import transaction
 import sqlamp
 from sqlalchemy import Column
 from sqlalchemy import Integer
-from sqlalchemy import Unicode
+from sqlalchemy import Unicode, UnicodeText
 from sqlalchemy import ForeignKey, DateTime, String, Text, Enum
 
 from sqlalchemy.exc import IntegrityError
