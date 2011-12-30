@@ -41,8 +41,8 @@ class Event(Base):
     id = Column(Integer, primary_key=True)
     type_id = Column(ForeignKey('EventTypes.id'), nullable=False)
     when = Column(DateTime, default=datetime.utcnow, nullable=False)
-    subject = Column(String(256))
-    message = Column(Text)
+    subject = Column(Unicode(256))
+    message = Column(UnicodeText)
     
     type = relationship('EventType')
     
